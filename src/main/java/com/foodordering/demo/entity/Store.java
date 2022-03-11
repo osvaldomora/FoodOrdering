@@ -25,7 +25,15 @@ public class Store {
 	private LocalTime openTill;
 	private String storeDescription;
 	
+	@OneToMany(mappedBy = "store")
+	private List<OrderDetail> orderDetailList = new ArrayList<>();
 	
+	public List<OrderDetail> getOrderDetailList() {
+		return orderDetailList;
+	}
+	public void setOrderDetailList(List<OrderDetail> orderDetailList) {
+		this.orderDetailList = orderDetailList;
+	}
 	public Integer getStoreId() {
 		return storeId;
 	}

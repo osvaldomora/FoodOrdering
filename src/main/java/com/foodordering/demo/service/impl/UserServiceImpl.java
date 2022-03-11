@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.foodordering.demo.dto.UserRequestLoginDTO;
 import com.foodordering.demo.dto.UserResponseDTO;
+import com.foodordering.demo.repo.UserRepo;
 import com.foodordering.demo.service.UserService;
 
 @Service
