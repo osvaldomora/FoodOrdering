@@ -47,7 +47,7 @@ public class UserController {
 
 	}
 	
-	@ExceptionHandler(UserNotFoundException.class)
+	@ExceptionHandler(OrderDetailNotFoundException.class)
 	public ResponseEntity<ErrorResponse> handleExceptionOrderDetail(OrderDetailNotFoundException ex) {
 
 		System.out.println("ErrorResponse:" + ex.getMessage());

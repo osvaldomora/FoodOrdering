@@ -28,6 +28,7 @@ public class MappingService implements IMappingService{
 		UserDto us=new UserDto();
 		us.setMessage("Successful Login");
 		us.setStatusCode("200 OK");
+		us.setUserId(user.getUserId());
 		return us;
 	}
 
