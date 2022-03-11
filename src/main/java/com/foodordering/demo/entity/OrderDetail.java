@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class OrderDetail {
@@ -22,7 +23,9 @@ public class OrderDetail {
 	private LocalDate orderDate;
 	
 	private Integer userId;
-	private Integer storeId;
+//	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne
+	private Store store;
 	
 	@ElementCollection
 	@JoinTable(name = "orderproducts", joinColumns = @JoinColumn(name = "orderDetailId"))
@@ -32,6 +35,15 @@ public class OrderDetail {
 	
 	@Enumerated(EnumType.STRING)
 	private OrderStatus status;
+
+	
+	public Store getStore() {
+		return store;
+	}
+
+	public void setStore(Store store) {
+		this.store = store;
+	}
 
 	public Integer getOrderDetailId() {
 		return orderDetailId;
@@ -55,14 +67,6 @@ public class OrderDetail {
 
 	public void setUserId(Integer userId) {
 		this.userId = userId;
-	}
-
-	public Integer getStoreId() {
-		return storeId;
-	}
-
-	public void setStoreId(Integer storeId) {
-		this.storeId = storeId;
 	}
 
 	public List<OrderProduct> getOrderProduct() {
