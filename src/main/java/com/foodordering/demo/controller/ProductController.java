@@ -18,7 +18,7 @@ import com.foodordering.demo.service.ProductService;
 public class ProductController {
 
 	@Autowired
-	ProductService productService;
+	private ProductService productService;
 
 	@PostMapping("/products")
 	public ResponseEntity<ResponseDTO> saveProductDetails(@RequestBody ProductRequestDTO productRequestDto) {
