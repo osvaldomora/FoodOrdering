@@ -76,6 +76,18 @@ public class Store {
 	public void setStoreDescription(String storeDescription) {
 		this.storeDescription = storeDescription;
 	}
+	@Override
+	public String toString() {
+		return "Store [storeId=" + storeId + ", storeName=" + storeName + ", storeAddress=" + storeAddress + ", rating="
+				+ rating + ", productList=" + productList + ", openTill=" + openTill + ", storeDescription="
+				+ storeDescription + "]";
+	}
+
+	
+	
+	
+	
+	
 	
 	
 }

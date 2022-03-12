@@ -26,6 +26,11 @@ public class OrderProduct {
 	public void setProductPrice(double productPrice) {
 		this.productPrice = productPrice;
 	}
+	@Override
+	public String toString() {
+		return "OrderProduct [productId=" + productId + ", quantity=" + quantity + ", productPrice=" + productPrice
+				+ "]";
+	}
 	
 	
 }
