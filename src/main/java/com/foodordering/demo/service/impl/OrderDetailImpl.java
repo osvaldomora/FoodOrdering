@@ -1,20 +1,31 @@
 package com.foodordering.demo.service.impl;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.foodordering.demo.dto.OrderRequestDTO;
+import com.foodordering.demo.dto.OrderResponseDTO;
+import com.foodordering.demo.dto.ProductListOrderDetailDTO;
 import com.foodordering.demo.dto.order.detail.OrderDetailDto;
 import com.foodordering.demo.dto.service.IMappingService;
 import com.foodordering.demo.entity.OrderDetail;
+import com.foodordering.demo.entity.OrderProduct;
+import com.foodordering.demo.entity.Store;
 import com.foodordering.demo.exception.OrderDetailNotFoundException;
+import com.foodordering.demo.exception.StoreNotFoundException;
 import com.foodordering.demo.repo.OrderDetailRepository;
+import com.foodordering.demo.repo.StoreRepo;
 import com.foodordering.demo.service.OrderDetailService;
 
 @Service
 public class OrderDetailImpl implements OrderDetailService{
-
+	@Autowired
+	private StoreRepo storeRepo;
 	@Autowired
 	private OrderDetailRepository orderDetailRep;
 	@Autowired
@@ -27,6 +38,40 @@ public class OrderDetailImpl implements OrderDetailService{
 			
 		
 		return mapping.mappingOrderDetail(ordersDet);
+	}
+	
+	
+	@Override
+	public OrderResponseDTO saveOrderDetails(OrderRequestDTO orderRequestDto) {
+		
+		OrderDetail orderDetail = new OrderDetail();
+		
+		BeanUtils.copyProperties(orderRequestDto, orderDetail);
+		
+		List<ProductListOrderDetailDTO> orderProductChanged = orderRequestDto.getProductList();
+		List<OrderProduct> orderproductlist = orderProductChanged.stream()
+				.map(orderlist -> {
+					OrderProduct orderproduct = new OrderProduct();
+					BeanUtils.copyProperties(orderlist, orderproduct);
+					return orderproduct;
+				}).collect(Collectors.toList());
+		orderDetail.setOrderProduct(orderproductlist);
+		
+		Optional<Store> storeOptional = storeRepo.findById(orderRequestDto.getStoreId());
+		
+		if(storeOptional.isEmpty()) {
+			throw new StoreNotFoundException("Store not Found: " + orderRequestDto.getStoreId());
+		}
+		
+		orderDetail.setStore(storeOptional.get());
+		
+		orderDetailRep.save(orderDetail);
+		
+		
+		OrderResponseDTO orderReponseDto = new OrderResponseDTO("Order saved successfully", 200);
+		orderReponseDto.setOrderNumber(orderDetail.getOrderNumber());
+		
+		return orderReponseDto;
 	}
 	
 
