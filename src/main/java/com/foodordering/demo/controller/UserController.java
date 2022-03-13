@@ -38,24 +38,6 @@ public class UserController {
 
 	}
 
-	@ExceptionHandler(UserNotFoundException.class)
-	public ResponseEntity<ErrorResponse> handleException(UserNotFoundException ex) {
-
-		System.out.println("ErrorResponse:" + ex.getMessage());
-		ErrorResponse errorResponse = new ErrorResponse(ex.getMessage(), Constants.USER_NOT_FOUND);
-		return new ResponseEntity<>(errorResponse, HttpStatus.OK);
-
-	}
-	
-	@ExceptionHandler(OrderDetailNotFoundException.class)
-	public ResponseEntity<ErrorResponse> handleExceptionOrderDetail(OrderDetailNotFoundException ex) {
-
-		System.out.println("ErrorResponse:" + ex.getMessage());
-		ErrorResponse errorResponse = new ErrorResponse(ex.getMessage(), Constants.USER_NOT_FOUND);
-		return new ResponseEntity<>(errorResponse, HttpStatus.OK);
-
-	}
-
 	@GetMapping(value = "/users/{userId}/orderdetails", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> enviaNotificacion(@PathVariable Integer userId) {
 

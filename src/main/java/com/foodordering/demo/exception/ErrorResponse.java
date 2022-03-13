@@ -1,5 +1,6 @@
 package com.foodordering.demo.exception;
 
+import java.time.LocalDateTime;
 
 public class ErrorResponse {
 	
@@ -16,6 +17,15 @@ public class ErrorResponse {
 	private  String message;
 	
 	private  String statusCode;
+	private LocalDateTime dateTime;
+	
+	public LocalDateTime getDateTime() {
+		return dateTime;
+	}
+
+	public void setDateTime(LocalDateTime dateTime) {
+		this.dateTime = dateTime;
+	}
 
 	public String getMessage() {
 		return message;

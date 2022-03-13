@@ -40,12 +40,7 @@ public class ProductController {
 		return new ResponseEntity<ProductResponseDTO>(productResponseDto, HttpStatus.OK );
 	}
 	
-	@ExceptionHandler(StoreNotFoundException.class)
-	public ResponseEntity<ErrorResponse> handleException(StoreNotFoundException ex){
-		ErrorResponse errorResponse = new ErrorResponse(ex.getMessage(), Constants.STORE_NOT_FOUND); 
-		return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.OK);
-		
-	}
+	
 //	@GetMapping("/stores/{storeId}/products")
 //	public String getProductsByStore(@PathVariable("storeId") String storeId) {
 //		
