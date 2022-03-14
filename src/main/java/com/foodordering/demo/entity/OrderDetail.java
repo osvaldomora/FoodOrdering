@@ -21,7 +21,7 @@ public class OrderDetail {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer orderDetailId;
 	private LocalDate orderDate;
-	
+	private String orderNumber;
 	private Integer userId;
 //	@ManyToOne(fetch = FetchType.EAGER)
 	@ManyToOne
@@ -33,10 +33,19 @@ public class OrderDetail {
 	
 	private double totalPrice;
 	
+	
 	@Enumerated(EnumType.STRING)
 	private OrderStatus status;
 
 	
+	public String getOrderNumber() {
+		return orderNumber;
+	}
+
+	public void setOrderNumber(String orderNumber) {
+		this.orderNumber = orderNumber;
+	}
+
 	public Store getStore() {
 		return store;
 	}
@@ -92,4 +101,13 @@ public class OrderDetail {
 	public void setStatus(OrderStatus status) {
 		this.status = status;
 	}
+
+	@Override
+	public String toString() {
+		return "OrderDetail [orderDetailId=" + orderDetailId + ", orderDate=" + orderDate + ", userId=" + userId
+				+ ", store=" + store + ", orderProduct=" + orderProduct + ", totalPrice=" + totalPrice + ", status="
+				+ status + "]";
+	}
+	
+	
 }
