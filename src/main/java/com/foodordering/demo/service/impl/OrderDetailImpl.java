@@ -3,6 +3,7 @@ package com.foodordering.demo.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -24,11 +25,12 @@ public class OrderDetailImpl implements OrderDetailService{
 	@Override
 	public OrderDetailDto orderdetails(Integer userId, Integer pageNo,Integer pageSize) {
 		
-//		Pageable paging = PageRequest.of(pageNo, pageSize);
-		
-		List<OrderDetail> ordersDet =	orderDetailRep.findByUserId(userId);
+		Pageable paging = PageRequest.of(pageNo, pageSize);
+		Page<OrderDetail> orderPage = orderDetailRep.findByUserId(userId,paging);
+		List<OrderDetail> ordersDet =orderPage.getContent();
+//		List<OrderDetail> ordersDet =	orderDetailRep.findByUserId(userId);
 		if(ordersDet.isEmpty())
-			new OrderDetailNotFoundException("detail empty");
+			new OrderDetailNotFoundException("the order history is empty");
 			
 		System.out.println("size:"+ordersDet.size());
 		
