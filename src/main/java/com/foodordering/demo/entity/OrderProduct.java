@@ -1,9 +1,16 @@
 package com.foodordering.demo.entity;
 
 import javax.persistence.Embeddable;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Embeddable
 public class OrderProduct {
+	
+//	@Id
+//	@GeneratedValue(strategy = GenerationType.AUTO)
+//	private Integer Id;
 	private Integer productId;
 	private int quantity;
 	private double productPrice;

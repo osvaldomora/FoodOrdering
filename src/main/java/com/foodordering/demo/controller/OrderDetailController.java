@@ -1,5 +1,7 @@
 package com.foodordering.demo.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +22,7 @@ public class OrderDetailController {
 	OrderDetailService orderService;
 	
 	@PostMapping("/orderDetails")
-	public ResponseEntity<OrderResponseDTO> saveOrderDetails(@RequestBody OrderRequestDTO orderRequestDto){
+	public ResponseEntity<OrderResponseDTO> saveOrderDetails(@Valid @RequestBody OrderRequestDTO orderRequestDto){
 		
 		OrderResponseDTO orderResponseDto = orderService.saveOrderDetails(orderRequestDto);
 		

@@ -53,4 +53,16 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<ValidationErrorResponse>(errorResponse, HttpStatus.OK);
 
 	}
+	
+	@ExceptionHandler(ProductNotFoundException.class)
+	public ResponseEntity<ErrorResponse> handleExceptionProductNotFound(ProductNotFoundException ex) {
+
+
+		System.out.println("ErrorResponse:" + ex.getMessage());
+		ErrorResponse errorResponse = new ErrorResponse(ex.getMessage(), Constants.USER_NOT_FOUND);
+		errorResponse.setDateTime(LocalDateTime.now());
+		return new ResponseEntity<>(errorResponse, HttpStatus.OK);
+
+	
+	}
 }

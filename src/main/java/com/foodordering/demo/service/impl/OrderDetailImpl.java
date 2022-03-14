@@ -18,10 +18,13 @@ import com.foodordering.demo.dto.order.detail.OrderDetailDto;
 import com.foodordering.demo.dto.service.IMappingService;
 import com.foodordering.demo.entity.OrderDetail;
 import com.foodordering.demo.entity.OrderProduct;
+import com.foodordering.demo.entity.Product;
 import com.foodordering.demo.entity.Store;
 import com.foodordering.demo.exception.OrderDetailNotFoundException;
+import com.foodordering.demo.exception.ProductNotFoundException;
 import com.foodordering.demo.exception.StoreNotFoundException;
 import com.foodordering.demo.repo.OrderDetailRepository;
+import com.foodordering.demo.repo.ProductRepo;
 import com.foodordering.demo.repo.StoreRepo;
 import com.foodordering.demo.service.OrderDetailService;
 
@@ -33,6 +36,8 @@ public class OrderDetailImpl implements OrderDetailService{
 	private OrderDetailRepository orderDetailRep;
 	@Autowired
 	private IMappingService mapping;
+	@Autowired
+	private ProductRepo productRepo;
 	@Override
 	public OrderDetailDto orderdetails(Integer userId, Integer pageNo,Integer pageSize) {
 		
@@ -55,16 +60,6 @@ public class OrderDetailImpl implements OrderDetailService{
 		OrderDetail orderDetail = new OrderDetail();
 		
 		BeanUtils.copyProperties(orderRequestDto, orderDetail);
-		
-		List<ProductListOrderDetailDTO> orderProductChanged = orderRequestDto.getProductList();
-		List<OrderProduct> orderproductlist = orderProductChanged.stream()
-				.map(orderlist -> {
-					OrderProduct orderproduct = new OrderProduct();
-					BeanUtils.copyProperties(orderlist, orderproduct);
-					return orderproduct;
-				}).collect(Collectors.toList());
-		orderDetail.setOrderProduct(orderproductlist);
-		
 		Optional<Store> storeOptional = storeRepo.findById(orderRequestDto.getStoreId());
 		
 		if(storeOptional.isEmpty()) {
@@ -72,6 +67,26 @@ public class OrderDetailImpl implements OrderDetailService{
 		}
 		
 		orderDetail.setStore(storeOptional.get());
+		
+		List<ProductListOrderDetailDTO> orderProductChanged = orderRequestDto.getProductList();
+		List<OrderProduct> orderproductlist = orderProductChanged.stream()
+				.map(orderlist -> {
+					OrderProduct orderproduct = new OrderProduct();
+//					orderlist.getProductPrice()
+					Product prod=productRepo.findById(orderlist.getProductId()).orElseThrow(()->new ProductNotFoundException("this product no exist") );
+					if(prod.getStore().getStoreId()!=storeOptional.get().getStoreId())
+					{
+					throw	new ProductNotFoundException("this product does not belong to this store");
+					}
+                   if(prod.getProductPrice()!=orderlist.getProductPrice()) {
+                	   throw	new ProductNotFoundException("price does not match with database data");  
+                   }
+				BeanUtils.copyProperties(orderlist, orderproduct);
+					return orderproduct;
+				}).collect(Collectors.toList());
+		orderDetail.setOrderProduct(orderproductlist);
+		
+
 		
 		orderDetailRep.save(orderDetail);
 		

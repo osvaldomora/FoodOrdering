@@ -2,13 +2,17 @@ package com.foodordering.demo.dto;
 
 import java.util.List;
 
-import com.foodordering.demo.entity.Product;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 public class OrderRequestDTO {
-
+    
+	@NotNull
 	private Integer userId;
+	@NotNull
 	private Integer storeId;
-	
+	@Size(min=1, message = "productList must be greater than or equal to 1")
+
 	private List<ProductListOrderDetailDTO> productList;
 	
 	private double totalPrice;
