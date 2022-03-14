@@ -5,6 +5,7 @@ public class ErrorResponse {
 	
 	
 
+
 	public ErrorResponse(String message, String statusCode) {
 		super();
 		this.message = message;

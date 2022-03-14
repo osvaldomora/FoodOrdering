@@ -6,7 +6,8 @@ package com.foodordering.demo.dto;
 //@AllArgsConstructor
 //@NoArgsConstructor
 public class UserDto {
-
+    
+	
 	private Integer userId;
 	private String message;
 	private String statusCode;

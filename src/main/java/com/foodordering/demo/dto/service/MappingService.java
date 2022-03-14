@@ -34,12 +34,13 @@ public class MappingService implements IMappingService{
 
 	@Override
 	public OrderDetailDto mappingOrderDetail(List<OrderDetail> ordersDetail) {
-		List<OrderDetailResponse> order=	ordersDetail.stream().map(od->{
+		List<OrderDetailResponse> order =	ordersDetail.stream().map(od->{
 			OrderDetailResponse orderDetDto=new OrderDetailResponse();
 			orderDetDto.setOrderDate(od.getOrderDate());
 			orderDetDto.setStoreId(od.getOrderDetailId().toString());
 			orderDetDto.setStoreName(od.getStore().getStoreName());
 			orderDetDto.setTotalPrice(od.getTotalPrice());
+			System.out.println("list of products:"+od.getOrderProduct());
 			
 			od.getOrderProduct().forEach(pro->{
 				Product product =productRepo.findById(pro.getProductId()).orElseThrow();

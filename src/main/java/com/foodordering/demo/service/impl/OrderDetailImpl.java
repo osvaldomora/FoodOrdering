@@ -3,6 +3,8 @@ package com.foodordering.demo.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.foodordering.demo.dto.order.detail.OrderDetailDto;
@@ -20,11 +22,15 @@ public class OrderDetailImpl implements OrderDetailService{
 	@Autowired
 	private IMappingService mapping;
 	@Override
-	public OrderDetailDto orderdetails(Integer userId) {
-		List<OrderDetail> ordersDet=	orderDetailRep.findByUserId(userId);
+	public OrderDetailDto orderdetails(Integer userId, Integer pageNo,Integer pageSize) {
+		
+//		Pageable paging = PageRequest.of(pageNo, pageSize);
+		
+		List<OrderDetail> ordersDet =	orderDetailRep.findByUserId(userId);
 		if(ordersDet.isEmpty())
 			new OrderDetailNotFoundException("detail empty");
 			
+		System.out.println("size:"+ordersDet.size());
 		
 		return mapping.mappingOrderDetail(ordersDet);
 	}
