@@ -1,5 +1,7 @@
 package com.foodordering.demo.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.foodordering.demo.constants.Constants;
@@ -30,7 +33,7 @@ public class UserController {
 	private OrderDetailService orderDetailService;
 
 	@PostMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> users(@RequestBody UserReq userReq) {
+	public ResponseEntity<?> users(@Valid @RequestBody UserReq userReq) {
 		
 
 		return new ResponseEntity<>(userService.findByNameAndPassword(userReq.getName(), userReq.getPassword()),
@@ -38,12 +41,15 @@ public class UserController {
 
 	}
 
+
 	@GetMapping(value = "/users/{userId}/orderdetails", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> enviaNotificacion(@PathVariable Integer userId) {
+	public ResponseEntity<?> orderdetails(@PathVariable Integer userId,
+			@RequestParam(defaultValue = "0") Integer pageNo,
+			@RequestParam(defaultValue = "10") Integer pageSize) {
 
 		System.out.println("osvaldo");
 
-		return new ResponseEntity<>(orderDetailService.orderdetails(userId), HttpStatus.OK);
+		return new ResponseEntity<>(orderDetailService.orderdetails(userId, pageNo, pageSize), HttpStatus.OK);
 
 	}
 
