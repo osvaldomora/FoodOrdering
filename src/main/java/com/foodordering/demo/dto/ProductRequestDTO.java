@@ -1,14 +1,14 @@
 package com.foodordering.demo.dto;
 
 import com.foodordering.demo.entity.ProductCategory;
-import com.foodordering.demo.entity.Store;
+import com.foodordering.demo.enumeration.ProdCategory;
 
 public class ProductRequestDTO {
 	
 	private String productName;
 	private Double productPrice;
 	private String productDescription;
-	private String productCategory;
+	private ProdCategory productCategory;//String productCategory;
 	private boolean isAvailable;	
 	private Integer storeId;
 	
@@ -30,10 +30,11 @@ public class ProductRequestDTO {
 	public void setProductDescription(String productDescription) {
 		this.productDescription = productDescription;
 	}
-	public String getProductCategory() {
+
+	public ProdCategory getProductCategory() {
 		return productCategory;
 	}
-	public void setProductCategory(String productCategory) {
+	public void setProductCategory(ProdCategory productCategory) {
 		this.productCategory = productCategory;
 	}
 	public boolean isAvailable() {
@@ -48,6 +49,8 @@ public class ProductRequestDTO {
 	public void setStoreId(Integer storeId) {
 		this.storeId = storeId;
 	}
+
+	
 	
 	
 }

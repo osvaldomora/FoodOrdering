@@ -36,8 +36,11 @@ public class ProductServiceImpl implements ProductService{
 		Product product = new Product();
 		BeanUtils.copyProperties(productRequestDto, product);
 		
-		product.setProductCategory(ProductCategory.valueOf(productRequestDto.getProductCategory()));
-		
+//		product.setProductCategory(ProductCategory.valueOf(productRequestDto.getProductCategory()));
+		System.out.println("the category values are");
+		System.out.println(productRequestDto.getProductCategory().getKey());
+		System.out.println(productRequestDto.getProductCategory().getDescription());
+		product.setProductCategory(ProductCategory.valueOf(productRequestDto.getProductCategory().getKey()));
 		
 		Optional<Store> storeOptional = storeRepo.findById(productRequestDto.getStoreId());
 		
