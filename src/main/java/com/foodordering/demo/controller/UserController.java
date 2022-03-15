@@ -47,7 +47,7 @@ public class UserController {
 			@RequestParam(defaultValue = "0") Integer pageNo,
 			@RequestParam(defaultValue = "10") Integer pageSize) {
 
-		System.out.println("osvaldo");
+		
 
 		return new ResponseEntity<>(orderDetailService.orderdetails(userId, pageNo, pageSize), HttpStatus.OK);
 

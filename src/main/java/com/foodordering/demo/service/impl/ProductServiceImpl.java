@@ -6,11 +6,15 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.foodordering.demo.dto.ProductDetails;
 import com.foodordering.demo.dto.ProductRequestDTO;
 import com.foodordering.demo.dto.ProductResponseDTO;
+import com.foodordering.demo.entity.OrderDetail;
 import com.foodordering.demo.entity.Product;
 import com.foodordering.demo.entity.ProductCategory;
 import com.foodordering.demo.entity.Store;
@@ -46,11 +50,12 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public ProductResponseDTO getProductDetailsByStoreId(Integer storeId) {
-		
+	public ProductResponseDTO getProductDetailsByStoreId(Integer storeId,Integer pageNo,Integer pageSize) {
+		Pageable paging = PageRequest.of(pageNo, pageSize);
+//		Page<OrderDetail> orderPage = orderDetailRep.findByUserId(userId,paging);
 		Optional<Store> filterStore = storeRepo.findById(storeId);
-		
-		List<Product> productList = productRepo.findByStore(filterStore);
+		Page<Product> productPage = productRepo.findByStore(filterStore,paging);
+		List<Product> productList = productPage.getContent();
 		
 		List<ProductDetails> productDetailList = productList.stream().map(product -> {
 			ProductDetails productDetails = new ProductDetails();

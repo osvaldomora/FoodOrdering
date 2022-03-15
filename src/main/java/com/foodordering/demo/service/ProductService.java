@@ -8,6 +8,6 @@ public interface ProductService {
 
 	void saveProductDetails(ProductRequestDTO productRequestDto);
 
-	ProductResponseDTO getProductDetailsByStoreId(Integer storeId);
+	ProductResponseDTO getProductDetailsByStoreId(Integer storeId,Integer pageNo,Integer pageSize);
 	
 }

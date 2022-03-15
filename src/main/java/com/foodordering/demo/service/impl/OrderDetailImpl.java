@@ -40,20 +40,61 @@ public class OrderDetailImpl implements OrderDetailService{
 	private ProductRepo productRepo;
 	@Override
 	public OrderDetailDto orderdetails(Integer userId, Integer pageNo,Integer pageSize) {
+//	       Projection1();
+//	       Projection2();
+//	       Projection3();
 		
 		Pageable paging = PageRequest.of(pageNo, pageSize);
 		Page<OrderDetail> orderPage = orderDetailRep.findByUserId(userId,paging);
 		List<OrderDetail> ordersDet =orderPage.getContent();
 //		List<OrderDetail> ordersDet =	orderDetailRep.findByUserId(userId);
+		System.out.println("list:");
 		if(ordersDet.isEmpty())
-			new OrderDetailNotFoundException("the order history is empty");
+			throw new OrderDetailNotFoundException("the order history should not be empty");
 			
 		System.out.println("size:"+ordersDet.size());
 		
 		return mapping.mappingOrderDetail(ordersDet);
+		
+		
+		
 	}
 	
 	
+	private void Projection3() {
+		orderDetailRep.findAllByUserId(1).forEach(x->{
+			System.out.println("status:"+x.getStatus());
+			System.out.println("Storename:"+x.getStore().getStoreName());
+				
+		});
+	}
+
+
+	private void Projection2() {
+		// projection ussing DTO
+		System.out.println("projection 2");
+		System.out.println(orderDetailRep.findByStoreAndStatus(1).getStore().getStoreName());
+		/*orderDetailRep.getByStoreAndStatus(1).stream().forEach(x->{
+			System.out.println("status:"+x.getStatus());
+			System.out.println("Storename:"+x.getStore().getStoreName());
+				
+		});*/
+		
+	}
+
+
+	private void Projection1() {
+		List<Object[]>  order =	orderDetailRep.getStatusAndUserId();
+		order.forEach(x->{
+			
+			
+			System.out.println(x[0]);
+			System.out.println(x[1]);
+
+		});
+	}
+
+
 	@Override
 	public OrderResponseDTO saveOrderDetails(OrderRequestDTO orderRequestDto) {
 		
@@ -72,7 +113,7 @@ public class OrderDetailImpl implements OrderDetailService{
 		List<OrderProduct> orderproductlist = orderProductChanged.stream()
 				.map(orderlist -> {
 					OrderProduct orderproduct = new OrderProduct();
-//					orderlist.getProductPrice()
+
 					Product prod=productRepo.findById(orderlist.getProductId()).orElseThrow(()->new ProductNotFoundException("this product no exist") );
 					if(prod.getStore().getStoreId()!=storeOptional.get().getStoreId())
 					{

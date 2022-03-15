@@ -13,6 +13,7 @@ import com.foodordering.demo.dto.order.detail.ProductDetail;
 import com.foodordering.demo.entity.OrderDetail;
 import com.foodordering.demo.entity.Product;
 import com.foodordering.demo.entity.User;
+import com.foodordering.demo.exception.ProductNotFoundException;
 import com.foodordering.demo.repo.ProductRepo;
 
 
@@ -43,7 +44,7 @@ public class MappingService implements IMappingService{
 			System.out.println("list of products:"+od.getOrderProduct());
 			
 			od.getOrderProduct().forEach(pro->{
-				Product product =productRepo.findById(pro.getProductId()).orElseThrow();
+				Product product =productRepo.findById(pro.getProductId()).orElseThrow(()->new ProductNotFoundException("Product not exist"));
 				ProductDetail prDet= new ProductDetail();
 				prDet.setProductName(product.getProductName());
 				prDet.setQuantity(pro.getProductPrice()+"");
